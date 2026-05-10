@@ -48,3 +48,32 @@ if st.button("Search"):
 
     else:
         st.warning("Please enter a valid word")
+
+
+if st.button("📃 Show History"):
+    connection = sqlite3.connect("database.db")
+    cursor = connection.cursor()
+    
+    cursor.execute("SELECT * FROM history")
+    data = cursor.fetchall()
+    
+    connection.close()
+    
+    st.subheader("Search History")
+    
+    for item in data:
+        st.write(f"word:{item[1]}")
+        st.write(f"meaning:{item[2]}")
+        st.write(f"...................")
+
+if st.button("🗑️ Clear History"):
+
+    connection = sqlite3.connect("database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM history")
+
+    connection.commit()
+    connection.close()
+
+    st.success("History Cleared")
